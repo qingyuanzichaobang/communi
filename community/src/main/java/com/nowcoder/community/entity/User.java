@@ -74,8 +74,8 @@ public class User {
         return activationCode;
     }
 
-    public void setActivationCode(String actibationCode) {
-        this.activationCode = actibationCode;
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     public String getHeaderUrl() {
@@ -90,23 +90,23 @@ public class User {
         return createTime;
     }
 
-    public void setCreatTime(Date creatTime) {
-        this.createTime = creatTime;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", nuername='" + username + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", salt='" + salt + '\'' +
                 ", email='" + email + '\'' +
                 ", type=" + type +
                 ", status=" + status +
-                ", actibationCode='" + activationCode + '\'' +
+                ", activationCode='" + activationCode + '\'' +
                 ", headerUrl='" + headerUrl + '\'' +
-                ", creatTime=" + createTime +
+                ", createTime=" + createTime +
                 '}';
     }
 }

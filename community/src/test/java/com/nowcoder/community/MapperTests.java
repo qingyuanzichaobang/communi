@@ -1,8 +1,12 @@
 package com.nowcoder.community;
 
 import com.nowcoder.community.dao.DiscussPostMapper;
+import com.nowcoder.community.dao.LoginTicketMapper;
+import com.nowcoder.community.dao.MessageMapper;
 import com.nowcoder.community.dao.UserMapper;
 import com.nowcoder.community.entity.DiscussPost;
+import com.nowcoder.community.entity.LoginTicket;
+import com.nowcoder.community.entity.Message;
 import com.nowcoder.community.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,10 @@ public class MapperTests {
     private UserMapper userMapper;
     @Autowired
     private DiscussPostMapper discussPostMapper;
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
+    @Autowired
+    private MessageMapper messageMapper;
     @Test
     public void testSelectUser(){
         User user = userMapper.selectById(11);
@@ -37,7 +45,7 @@ public class MapperTests {
         user.setSalt("abc");
         user.setEmail("3@qq.com");
         user.setHeaderUrl("http://www.nowcoder.com/101.png");
-        user.setCreatTime(new Date());
+        user.setCreateTime(new Date());
 
         int rows = userMapper.insertUser(user);
         System.out.println("===================================");
@@ -61,4 +69,56 @@ public class MapperTests {
         System.out.println(list.size());
         System.out.println(list);
     }
+    @Test
+    public void testInsertLoginTicket(){
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserid(100);
+        loginTicket.setTicket("abc");
+        loginTicket.setStatus(0);
+        loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * 60 * 10));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+    }
+    public void testSelectLoginTicket(){
+        LoginTicket loginTicket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
+
+        loginTicketMapper.updateStatus("abc",1);
+        loginTicket = loginTicketMapper.selectByTicket("abc");
+        System.out.println(loginTicket);
+    }
+    @Test
+    public void testInsertDiscussPost(){
+        DiscussPost discussPost = new DiscussPost();
+        discussPost.setId(2);
+        discussPost.setTitle("我要上岸");
+        discussPost.setContent("mt");
+        discussPost.setStatus(1);
+        discussPost.setCreateTime(new Date());
+        discussPost.setCommentCount(20);
+        discussPost.setScore(100);
+        discussPost.setType(1);
+        discussPostMapper.insertDiscussPost(discussPost);
+
+    }
+    @Test
+    public void testSelectLetters(){
+        List<Message> list = messageMapper.selectConversation(111,0,20);
+        for(Message message:list){
+            System.out.println(message);
+        }
+        int count = messageMapper.selectConversationCount(111);
+        System.out.println(count);
+
+        list = messageMapper.selectLetters("111_112",0,10);
+        for(Message message :list){
+            System.out.println(message);
+        }
+        count = messageMapper.selectLetterCount("111_112");
+        System.out.println(count);
+        count = messageMapper.selectLetterUnreadCount(131,"111_131");
+        System.out.println(count);
+    }
+
+
+
 }
